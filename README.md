@@ -22,6 +22,10 @@ curl -X POST 'https://admin:changeme@my-host.example.com/restmailer.php' \
 ```
 
 ```bash
+ls | curl --data-binary @- 'https://admin:changeme@my-host.example.com/restmailer.php?to=my-recipient@example.com&subject=test-body'
+```
+
+```bash
 curl -X POST 'https://admin:changeme@my-host.example.com/restmailer.php' \
     -H 'Content-Type: application/json' \
     -d '{

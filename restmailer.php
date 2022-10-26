@@ -1,7 +1,7 @@
 <?php
 
 /**
- * php-restmailer v1.0
+ * php-restmailer v1.1
  * by dmotte
  * https://github.com/dmotte/php-restmailer
  */
@@ -39,6 +39,8 @@ if (
     diemsg('Please fill in the correct login details', 401);
 }
 
+$data = NULL;
+
 if (
     isset($_GET['to']) &&
     isset($_GET['subject']) &&
@@ -51,7 +53,17 @@ else if (
     isset($_POST['message'])
 )
     $data = $_POST;
-else if ($_SERVER['CONTENT_TYPE'] === 'application/json') {
+else if (
+    isset($_GET['to']) &&
+    isset($_GET['subject'])
+) {
+    $data = $_GET;
+
+    $req_body = file_get_contents('php://input');
+    if ($req_body === false) diemsg('Cannot read the request body');
+
+    $data['message'] = $req_body;
+} else if ($_SERVER['CONTENT_TYPE'] === 'application/json') {
     $req_body = file_get_contents('php://input');
     if ($req_body === false) diemsg('Cannot read the request body');
 
